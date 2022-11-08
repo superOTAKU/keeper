@@ -35,4 +35,11 @@ public class KeeperObject {
         this.payload = payload;
     }
 
+    @Override
+    public String toString() {
+        return "KeeperObject{" +
+                "type=" + type +
+                ", payload=" + payload +
+                '}';
+    }
 }

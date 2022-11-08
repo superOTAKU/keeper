@@ -32,7 +32,7 @@ public class FileKeeperStore implements KeeperStore {
     public FileKeeperStore(String path) throws IOException {
         this.path = path;
         //try to create this file
-        try (var ignored = new FileOutputStream(path)) {
+        try (var ignored = new FileOutputStream(path, true)) {
             //ignored
         }
     }

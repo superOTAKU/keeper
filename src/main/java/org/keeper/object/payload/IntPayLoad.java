@@ -18,4 +18,10 @@ public class IntPayLoad implements KeeperObjectPayload {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return "IntPayLoad{" +
+                "value=" + value +
+                '}';
+    }
 }
