@@ -27,6 +27,10 @@ public class RequestContext {
         reply(ResponseStatus.ERROR, payload);
     }
 
+    public void replySuccess() {
+        reply(ResponseStatus.SUCCESS, new byte[0]);
+    }
+
     public void replySuccess(CommandPayload payload) {
         reply(ResponseStatus.SUCCESS, payload);
     }
