@@ -1,31 +1,42 @@
 package org.keeper.command;
 
 public class KeeperCommand {
-    private KeeperCommandType type;
-    private KeeperCommandCode code;
-    private byte[] body;
+    private CommandType type;
+    private OperationCode opCode;
+    private byte[] payload;
+    //only has value if it is a response
+    private ResponseStatus status;
 
-    public KeeperCommandType getType() {
+    public CommandType getType() {
         return type;
     }
 
-    public void setType(KeeperCommandType type) {
+    public void setType(CommandType type) {
         this.type = type;
     }
 
-    public KeeperCommandCode getCode() {
-        return code;
+    public OperationCode getOpCode() {
+        return opCode;
     }
 
-    public void setCode(KeeperCommandCode code) {
-        this.code = code;
+    public void setOpCode(OperationCode opCode) {
+        this.opCode = opCode;
     }
 
-    public byte[] getBody() {
-        return body;
+    public byte[] getPayload() {
+        return payload;
     }
 
-    public void setBody(byte[] body) {
-        this.body = body;
+    public void setPayload(byte[] payload) {
+        this.payload = payload;
     }
+
+    public ResponseStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ResponseStatus status) {
+        this.status = status;
+    }
+
 }

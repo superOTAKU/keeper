@@ -9,7 +9,7 @@ import org.keeper.object.payload.KeeperObjectPayload;
 
 import java.nio.charset.StandardCharsets;
 
-public class SetRequest implements KeeperCommandPayload {
+public class SetRequest implements CommandPayload {
     private String key;
     private KeeperObject object;
 

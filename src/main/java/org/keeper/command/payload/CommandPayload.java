@@ -3,7 +3,7 @@ package org.keeper.command.payload;
 /**
  * 命令数据对象
  */
-public interface KeeperCommandPayload {
+public interface CommandPayload {
 
     byte[] encode();
 

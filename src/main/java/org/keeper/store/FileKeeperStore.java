@@ -72,6 +72,10 @@ public class FileKeeperStore implements KeeperStore {
         try {
             in = new DataInputStream(new BufferedInputStream(new FileInputStream(path)));
             String magic = new String(in.readNBytes(6), StandardCharsets.UTF_8);
+            if (magic.isEmpty()) {
+                //空文件
+                return cache;
+            }
             if (!Objects.equals(MAGIC, magic)) {
                 throw new RuntimeException("illegal magic: " + magic);
             }
