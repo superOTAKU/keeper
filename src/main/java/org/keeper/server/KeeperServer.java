@@ -19,7 +19,7 @@ public class KeeperServer implements IService {
     private final KeeperServerController controller;
     private NioEventLoopGroup boss;
     private NioEventLoopGroup worker;
-    private Channel channel;
+    private volatile Channel channel;
 
 
     public KeeperServer(KeeperServerController controller) {
@@ -31,7 +31,7 @@ public class KeeperServer implements IService {
         boss = new NioEventLoopGroup(1);
         worker = new NioEventLoopGroup(1);
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap.group(boss, worker)
+        ChannelFuture future = bootstrap.group(boss, worker)
                 .channel(NioServerSocketChannel.class)
                 .option(ChannelOption.SO_REUSEADDR, true)
                 .option(ChannelOption.SO_BACKLOG, 1024)
@@ -64,7 +64,14 @@ public class KeeperServer implements IService {
                             }
                         });
                     }
-                });
+                }).bind(controller.getConfig().getBindAddress(), controller.getConfig().getBindPort()).syncUninterruptibly();
+        if (!future.isSuccess()) {
+            log.error("start server error", future.cause());
+            throw new RuntimeException(future.cause());
+        } else {
+            channel = future.channel();
+            log.info("server started at {}:{}", controller.getConfig().getBindAddress(), controller.getConfig().getBindPort());
+        }
     }
 
     @Override

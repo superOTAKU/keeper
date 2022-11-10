@@ -13,6 +13,7 @@ public class KeeperServerController implements IService {
 
     public KeeperServerController(KeeperServerConfig config) {
         server = new KeeperServer(this);
+        this.config = config;
     }
 
     @Override
@@ -37,5 +38,9 @@ public class KeeperServerController implements IService {
 
     public KeeperStore getStore() {
         return store;
+    }
+
+    public KeeperServerConfig getConfig() {
+        return config;
     }
 }
