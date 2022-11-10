@@ -31,6 +31,10 @@ public class RequestContext {
         reply(ResponseStatus.SUCCESS, payload);
     }
 
+    public void replySuccess() {
+        replySuccess(new byte[0]);
+    }
+
     public void replySuccess(byte[] payload) {
         reply(ResponseStatus.SUCCESS, payload);
     }

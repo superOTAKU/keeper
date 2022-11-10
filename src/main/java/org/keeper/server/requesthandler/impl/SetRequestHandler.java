@@ -12,6 +12,7 @@ public class SetRequestHandler implements RequestHandler {
     public void handle(RequestContext context, KeeperCommand requestCommand) {
         SetRequest request = PayloadUtil.decode(requestCommand, SetRequest.class);
         context.getController().getCache().set(request.getKey(), request.getObject());
+        context.replySuccess();
     }
 
 }

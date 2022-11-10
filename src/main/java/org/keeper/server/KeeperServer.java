@@ -55,6 +55,7 @@ public class KeeperServer implements IService {
                                 RequestContext requestContext = new RequestContext();
                                 requestContext.setOpCode(requestCommand.getOpCode());
                                 requestContext.setCtx(ctx);
+                                requestContext.setController(controller);
                                 try {
                                     requestHandler.handle(requestContext, requestCommand);
                                 } catch (Exception e) {
