@@ -27,10 +27,6 @@ public class RequestContext {
         reply(ResponseStatus.ERROR, payload);
     }
 
-    public void replySuccess() {
-        reply(ResponseStatus.SUCCESS, new byte[0]);
-    }
-
     public void replySuccess(CommandPayload payload) {
         reply(ResponseStatus.SUCCESS, payload);
     }
@@ -49,6 +45,7 @@ public class RequestContext {
 
     public void reply(ResponseStatus status, byte[] payload) {
         KeeperCommand responseCommand = new KeeperCommand();
+        responseCommand.setId(responseCommand.getId());
         responseCommand.setType(CommandType.RESPONSE);
         responseCommand.setOpCode(opCode);
         responseCommand.setStatus(status);

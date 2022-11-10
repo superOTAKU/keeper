@@ -26,7 +26,8 @@ public class KeeperCommandCodec extends ByteToMessageCodec<KeeperCommand> {
             throw new IllegalStateException();
         }
         byte[] payload = Optional.ofNullable(command.getPayload()).orElse(EMPTY_BYTES);
-        byteBuf.writeInt((command.getType() == CommandType.REQUEST ? 4 : 5) + payload.length);
+        byteBuf.writeInt((command.getType() == CommandType.REQUEST ? 8 : 9) + payload.length);
+        byteBuf.writeInt(command.getId());
         byteBuf.writeByte(command.getType().getType());
         byteBuf.writeInt(command.getOpCode().getCode());
         if (command.getType() == CommandType.RESPONSE) {
@@ -39,6 +40,7 @@ public class KeeperCommandCodec extends ByteToMessageCodec<KeeperCommand> {
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         KeeperCommand command = new KeeperCommand();
         byteBuf.readInt();
+        command.setId(byteBuf.readInt());
         command.setType(CommandType.of(byteBuf.readByte()));
         command.setOpCode(OperationCode.of(byteBuf.readInt()));
         if (command.getType() == CommandType.RESPONSE) {
