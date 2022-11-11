@@ -2,24 +2,22 @@ package org.keeper.command.payload;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import lombok.Getter;
+import lombok.Setter;
 import org.keeper.object.KeeperObject;
 import org.keeper.object.KeeperObjectType;
 import org.keeper.object.payload.IntPayLoad;
 import org.keeper.object.payload.KeeperObjectPayload;
 
-import java.nio.charset.StandardCharsets;
-
-public class SetRequest implements CommandPayload {
-    private String key;
+@Getter
+@Setter
+public class GetResponse implements CommandPayload {
     private KeeperObject object;
 
     @Override
     public byte[] encode() {
         ByteBuf buf = Unpooled.buffer();
         buf.writeByte(object.getType().ordinal());
-        byte[] keyBytes = key.getBytes(StandardCharsets.UTF_8);
-        buf.writeInt(keyBytes.length);
-        buf.writeBytes(keyBytes);
         switch (object.getType()) {
             case INT:
                 buf.writeInt(((IntPayLoad)object.getPayload()).getValue());
@@ -36,7 +34,6 @@ public class SetRequest implements CommandPayload {
     public void decode(byte[] payload) {
         ByteBuf buf = Unpooled.wrappedBuffer(payload);
         var type = KeeperObjectType.values()[buf.readByte()];
-        key = buf.readCharSequence(buf.readInt(), StandardCharsets.UTF_8).toString();
         KeeperObjectPayload objectPayload;
         switch (type) {
             case INT:
@@ -48,20 +45,10 @@ public class SetRequest implements CommandPayload {
         object = new KeeperObject(type, objectPayload);
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    @Override
+    public String toString() {
+        return "GetResponse{" +
+                "object=" + object +
+                '}';
     }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setObject(KeeperObject object) {
-        this.object = object;
-    }
-
-    public KeeperObject getObject() {
-        return object;
-    }
-
 }

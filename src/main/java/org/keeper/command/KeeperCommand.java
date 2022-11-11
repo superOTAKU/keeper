@@ -56,4 +56,13 @@ public class KeeperCommand {
         this.id = idSupplier.incrementAndGet();
     }
 
+    @Override
+    public String toString() {
+        return "KeeperCommand{" +
+                "id=" + id +
+                ", type=" + type +
+                ", opCode=" + opCode +
+                ", status=" + status +
+                '}';
+    }
 }

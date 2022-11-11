@@ -21,7 +21,6 @@ public class KeeperServer implements IService {
     private NioEventLoopGroup worker;
     private volatile Channel channel;
 
-
     public KeeperServer(KeeperServerController controller) {
         this.controller = controller;
     }
@@ -56,6 +55,7 @@ public class KeeperServer implements IService {
                                 requestContext.setOpCode(requestCommand.getOpCode());
                                 requestContext.setCtx(ctx);
                                 requestContext.setController(controller);
+                                requestContext.setRequestId(requestCommand.getId());
                                 try {
                                     requestHandler.handle(requestContext, requestCommand);
                                 } catch (Exception e) {

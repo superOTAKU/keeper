@@ -76,6 +76,7 @@ public class KeeperClient {
         request.setPayload(payload.encode());
         request.allocateId();
         var responseFuture = new CompletableFuture<KeeperCommand>();
+        responseFutures.put(request.getId(), responseFuture);
         channel.writeAndFlush(request).addListener(f -> {
            if (!f.isSuccess()) {
                CompletableFuture<KeeperCommand> rf = responseFutures.remove(request.getId());

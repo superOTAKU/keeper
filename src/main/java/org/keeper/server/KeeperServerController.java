@@ -21,6 +21,7 @@ public class KeeperServerController implements IService {
         store = new FileKeeperStore(config.getDbPath());
         cache = store.load();
         server.start();
+        //TODO 定时存盘
     }
 
     @Override

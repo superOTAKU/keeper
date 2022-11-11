@@ -15,6 +15,7 @@ import org.keeper.server.KeeperServerController;
 @Setter
 @Getter
 public class RequestContext {
+    private Integer requestId;
     private OperationCode opCode;
     private ChannelHandlerContext ctx;
     private KeeperServerController controller;
@@ -45,7 +46,7 @@ public class RequestContext {
 
     public void reply(ResponseStatus status, byte[] payload) {
         KeeperCommand responseCommand = new KeeperCommand();
-        responseCommand.setId(responseCommand.getId());
+        responseCommand.setId(requestId);
         responseCommand.setType(CommandType.RESPONSE);
         responseCommand.setOpCode(opCode);
         responseCommand.setStatus(status);

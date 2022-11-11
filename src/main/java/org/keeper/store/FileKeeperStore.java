@@ -67,6 +67,7 @@ public class FileKeeperStore implements KeeperStore {
 
     @Override
     public KeeperCache load() throws Exception {
+        log.info("start loading cache from file store : {}", path);
         KeeperCache cache = new DefaultKeeperCache();
         DataInputStream in = null;
         try {
@@ -74,6 +75,7 @@ public class FileKeeperStore implements KeeperStore {
             String magic = new String(in.readNBytes(6), StandardCharsets.UTF_8);
             if (magic.isEmpty()) {
                 //空文件
+                log.info("store is empty");
                 return cache;
             }
             if (!Objects.equals(MAGIC, magic)) {
@@ -100,6 +102,7 @@ public class FileKeeperStore implements KeeperStore {
                 }
                 cache.set(key, new KeeperObject(type, payload));
             }
+            log.info("load store finish");
             return cache;
         } finally {
             IoUtil.close(in);
