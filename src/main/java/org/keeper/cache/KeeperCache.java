@@ -12,4 +12,6 @@ public interface KeeperCache {
 
     Map<String, KeeperObject> getAll();
 
+    KeeperCache clone();
+
 }

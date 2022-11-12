@@ -5,13 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.keeper.cache.KeeperCache;
-import org.keeper.object.KeeperObject;
-
-import java.util.LinkedHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * 负责定时存盘任务:
@@ -24,6 +18,7 @@ public class KeeperStoreManager {
     private final KeeperServerController controller;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1,
             new NamedThreadFactory("storeSchedule", false));
+    private ScheduledFuture<?> scheduledFuture;
     private final ExecutorService taskService = Executors.newFixedThreadPool(1, new NamedThreadFactory("storeExecutor", false));
 
     public KeeperStoreManager(KeeperServerController controller) {
@@ -31,7 +26,8 @@ public class KeeperStoreManager {
     }
 
     public void startSchedule() {
-        scheduler.scheduleWithFixedDelay(() -> {}, 5, 5, TimeUnit.SECONDS);
+        scheduledFuture = scheduler.scheduleWithFixedDelay(this::triggerCacheClone, 5, 5, TimeUnit.SECONDS);
+        log.info("start keeper store manager schedule");
     }
 
     public void onCacheCloned(CacheClonedEvent event) {
@@ -42,6 +38,16 @@ public class KeeperStoreManager {
             } catch (Exception e) {
                 log.error("period save cache to store error", e);
             }
+        });
+    }
+
+    public void triggerCacheClone() {
+        log.info("period trigger cache clone");
+        controller.getServer().executeTask(() -> {
+            KeeperCache clonedCache = controller.getCache().clone();
+            CacheClonedEvent event = new CacheClonedEvent();
+            event.setClonedCache(clonedCache);
+            onCacheCloned(event);
         });
     }
 

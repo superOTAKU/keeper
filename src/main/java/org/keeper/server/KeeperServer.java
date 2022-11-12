@@ -79,4 +79,8 @@ public class KeeperServer implements IService {
 
     }
 
+    public void executeTask(Runnable task) {
+        worker.execute(task);
+    }
+
 }

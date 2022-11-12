@@ -22,4 +22,13 @@ public class DefaultKeeperCache implements KeeperCache {
     public Map<String, KeeperObject> getAll() {
         return cache;
     }
+
+    @Override
+    public KeeperCache clone() {
+        DefaultKeeperCache newCache = new DefaultKeeperCache();
+        for (var entry : cache.entrySet()) {
+            newCache.set(entry.getKey(), entry.getValue());
+        }
+        return newCache;
+    }
 }

@@ -9,10 +9,12 @@ public class KeeperServerController implements IService {
     private KeeperServer server;
     private KeeperCache cache;
     private KeeperStore store;
+    private KeeperStoreManager storeManager;
     private KeeperServerConfig config;
 
     public KeeperServerController(KeeperServerConfig config) {
         server = new KeeperServer(this);
+        storeManager = new KeeperStoreManager(this);
         this.config = config;
     }
 
@@ -21,7 +23,7 @@ public class KeeperServerController implements IService {
         store = new FileKeeperStore(config.getDbPath());
         cache = store.load();
         server.start();
-        //TODO 定时存盘
+        storeManager.startSchedule();
     }
 
     @Override

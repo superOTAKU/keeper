@@ -1,5 +1,6 @@
 package org.keeper.server;
 
+import cn.hutool.core.thread.ThreadUtil;
 import org.junit.Test;
 import org.keeper.client.KeeperClient;
 import org.keeper.client.KeeperClientConfig;
@@ -38,6 +39,9 @@ public class KeeperServerTest {
         KeeperCommand getResponseCommand = client.sendRequest(OperationCode.GET, getRequest);
         GetResponse getResponse = PayloadUtil.decode(getResponseCommand, GetResponse.class);
         System.out.println("get response: " + getResponse);
+
+        ThreadUtil.sleep(60000);
+
     }
 
 }
