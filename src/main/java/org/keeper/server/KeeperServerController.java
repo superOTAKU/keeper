@@ -1,6 +1,7 @@
 package org.keeper.server;
 
 import org.keeper.cache.KeeperCache;
+import org.keeper.server.replication.ReplicationManager;
 import org.keeper.service.IService;
 import org.keeper.store.FileKeeperStore;
 import org.keeper.store.KeeperStore;
@@ -11,10 +12,12 @@ public class KeeperServerController implements IService {
     private KeeperStore store;
     private KeeperStoreManager storeManager;
     private KeeperServerConfig config;
+    private ReplicationManager replicationManager;
 
     public KeeperServerController(KeeperServerConfig config) {
         server = new KeeperServer(this);
         storeManager = new KeeperStoreManager(this);
+        replicationManager = new ReplicationManager(this);
         this.config = config;
     }
 
