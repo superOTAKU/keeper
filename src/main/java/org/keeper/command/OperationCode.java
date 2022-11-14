@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
 public enum OperationCode {
     SET(1),
     GET(2),
+
+    SLAVE_OF(100), //处理该命令，成为某个节点的slave
+    MASTER_OF(101), //处理该命令，成为某个节点的master
     ;
 
     private final int code;

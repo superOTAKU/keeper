@@ -49,4 +49,8 @@ public class KeeperServerController implements IService {
     public KeeperServerConfig getConfig() {
         return config;
     }
+
+    public ReplicationManager getReplicationManager() {
+        return replicationManager;
+    }
 }
